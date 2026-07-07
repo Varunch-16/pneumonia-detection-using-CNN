@@ -70,6 +70,7 @@ PNEUMONIA
 The full dataset is not included in this repository because it is approximately 1.5 GB in size. Users who want to retrain or test the model can download the dataset directly from Kaggle using the link above.
 
 Project Structure
+```text
 pneumonia-detection-efficientnetb0/
 │
 ├── app.py
