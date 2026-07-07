@@ -1,0 +1,74 @@
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ vgg16 (Functional)          (None, 512)               14714688
+
+ flatten (Flatten)           (None, 512)               0
+
+ dense (Dense)               (None, 128)               65664
+
+ dense_1 (Dense)             (None, 64)                8256
+
+ dense_2 (Dense)             (None, 32)                2080
+
+ dense_3 (Dense)             (None, 1)                 33
+
+=================================================================
+Total params: 14,790,721
+Trainable params: 76,033
+Non-trainable params: 14,714,688
+_________________________________________________________________
+vgg16with.py:67: UserWarning: `Model.fit_generator` is deprecated and will be removed in a future version. Please use `Model.fit`, which supports generators.
+  history = model.fit_generator(train_set, epochs=epochs, validation_data=validation_set, steps_per_epoch=len(train_set), validation_steps=len(validation_set))
+Epoch 1/10
+2024-05-05 11:41:12.352913: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 411041792 exceeds 10% of free system memory.
+2024-05-05 11:41:13.780103: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 411041792 exceeds 10% of free system memory.
+  1/163 [..............................] - ETA: 51:32 - loss: 0.7854 - accuracy: 0.25002024-05-05 11:41:26.184954: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 411041792 exceeds 10% of free system memory.
+2024-05-05 11:41:26.451993: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 411041792 exceeds 10% of free system memory.
+  2/163 [..............................] - ETA: 30:58 - loss: 0.6786 - accuracy: 0.50002024-05-05 11:41:37.734248: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 411041792 exceeds 10% of free system memory.
+163/163 [==============================] - 2597s 16s/step - loss: 0.3029 - accuracy: 0.8597 - val_loss: 0.6889 - val_accuracy: 0.6875
+Epoch 2/10
+163/163 [==============================] - 2492s 15s/step - loss: 0.1842 - accuracy: 0.9270 - val_loss: 0.6124 - val_accuracy: 0.7500
+Epoch 3/10
+163/163 [==============================] - 2695s 17s/step - loss: 0.1672 - accuracy: 0.9333 - val_loss: 0.3679 - val_accuracy: 0.8125
+Epoch 4/10
+163/163 [==============================] - 5236s 32s/step - loss: 0.1633 - accuracy: 0.9385 - val_loss: 0.3215 - val_accuracy: 0.8125
+Epoch 5/10
+163/163 [==============================] - 5413s 33s/step - loss: 0.1597 - accuracy: 0.9381 - val_loss: 0.6877 - val_accuracy: 0.7500
+Epoch 6/10
+163/163 [==============================] - 3496s 21s/step - loss: 0.1391 - accuracy: 0.9494 - val_loss: 0.8176 - val_accuracy: 0.6875
+Epoch 7/10
+163/163 [==============================] - 6501s 40s/step - loss: 0.1349 - accuracy: 0.9486 - val_loss: 0.7546 - val_accuracy: 0.7500
+Epoch 8/10
+163/163 [==============================] - 4561s 28s/step - loss: 0.1301 - accuracy: 0.9517 - val_loss: 0.5458 - val_accuracy: 0.7500
+Epoch 9/10
+163/163 [==============================] - 6668s 41s/step - loss: 0.1339 - accuracy: 0.9505 - val_loss: 0.3960 - val_accuracy: 0.8125
+Epoch 10/10
+163/163 [==============================] - 2753s 17s/step - loss: 0.1294 - accuracy: 0.9496 - val_loss: 0.5876 - val_accuracy: 0.7500
+163/163 [==============================] - 33913s 209s/step - loss: 0.1245 - accuracy: 0.9525
+1/1 [==============================] - 8s 8s/step - loss: 0.5876 - accuracy: 0.7500
+20/20 [==============================] - 300s 15s/step - loss: 0.3696 - accuracy: 0.8878
+Train Accuracy: 95.25%
+Validation Accuracy: 75.00%
+Test Accuracy: 88.78%
+Train Loss: 12.45%
+Validation Loss: 58.76%
+Test Loss: 36.96%
+20/20 [==============================] - 305s 15s/step
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

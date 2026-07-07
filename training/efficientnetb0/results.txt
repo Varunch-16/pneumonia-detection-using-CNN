@@ -1,0 +1,68 @@
+(pd99) D:\pneumonia_project\efficientNetB0>python pneumonia_detection.py
+Modules loaded
+Found 4684 validated image filenames belonging to 2 classes.
+Found 703 validated image filenames belonging to 2 classes.
+Found 469 validated image filenames belonging to 2 classes.
+2024-04-08 15:34:03.203145: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-04-08 15:34:03.206109: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ efficientnetb0 (Functional)  (None, 1280)             4049571
+
+ batch_normalization (BatchN  (None, 1280)             5120
+ ormalization)
+
+ dense (Dense)               (None, 256)               327936
+
+ dropout (Dropout)           (None, 256)               0
+
+ dense_1 (Dense)             (None, 2)                 514
+
+=================================================================
+Total params: 4,383,141
+Trainable params: 4,338,558
+Non-trainable params: 44,583
+_________________________________________________________________
+Epoch 1/10
+293/293 [==============================] - 754s 2s/step - loss: 4.5270 - accuracy: 0.9244 - val_loss: 2.7361 - val_accuracy: 0.9417
+Epoch 2/10
+293/293 [==============================] - 722s 2s/step - loss: 1.9290 - accuracy: 0.9609 - val_loss: 1.3131 - val_accuracy: 0.9772
+Epoch 3/10
+293/293 [==============================] - 724s 2s/step - loss: 0.9886 - accuracy: 0.9701 - val_loss: 0.6882 - val_accuracy: 0.9801
+Epoch 4/10
+293/293 [==============================] - 722s 2s/step - loss: 0.5426 - accuracy: 0.9780 - val_loss: 0.4197 - val_accuracy: 0.9659
+Epoch 5/10
+293/293 [==============================] - 723s 2s/step - loss: 0.3433 - accuracy: 0.9769 - val_loss: 0.2896 - val_accuracy: 0.9730
+Epoch 6/10
+293/293 [==============================] - 723s 2s/step - loss: 0.2411 - accuracy: 0.9823 - val_loss: 0.2210 - val_accuracy: 0.9730
+Epoch 7/10
+293/293 [==============================] - 722s 2s/step - loss: 0.1854 - accuracy: 0.9865 - val_loss: 0.2079 - val_accuracy: 0.9730
+Epoch 8/10
+293/293 [==============================] - 727s 2s/step - loss: 0.1543 - accuracy: 0.9893 - val_loss: 0.2060 - val_accuracy: 0.9659
+Epoch 9/10
+293/293 [==============================] - 727s 2s/step - loss: 0.1369 - accuracy: 0.9908 - val_loss: 0.1551 - val_accuracy: 0.9701
+Epoch 10/10
+293/293 [==============================] - 746s 3s/step - loss: 0.1266 - accuracy: 0.9898 - val_loss: 0.1648 - val_accuracy: 0.9687
+7/7 [==============================] - 5s 737ms/step - loss: 0.0865 - accuracy: 1.0000
+7/7 [==============================] - 6s 807ms/step - loss: 0.1716 - accuracy: 0.9732
+7/7 [==============================] - 6s 784ms/step - loss: 0.1157 - accuracy: 0.9821
+Train Accuracy: 100.00%
+Validation Accuracy: 97.32%
+Test Accuracy: 98.21%
+Train Loss: 8.65%
+Validation Loss: 17.16%
+Test Loss: 11.57%
+30/30 [==============================] - 28s 824ms/step
+              precision    recall  f1-score   support
+
+      NORMAL       0.98      0.95      0.97       122
+   PNEUMONIA       0.98      0.99      0.99       347
+
+    accuracy                           0.98       469
+   macro avg       0.98      0.97      0.98       469
+weighted avg       0.98      0.98      0.98       469
+
+Model saved as pneumonia_detection_model.h5

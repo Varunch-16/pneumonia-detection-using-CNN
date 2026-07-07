@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pneumonia Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">Pneumonia Detection</div>
+    </header>
+
+    <main class="hero">
+        <section class="hero-text">
+            <p class="tag">Deep Learning · Chest X-Ray Classification · Flask</p>
+            <h1>Pneumonia Detection in Chest X-Ray Images Using EfficientNetB0</h1>
+            <p>
+                Upload a chest X-ray image and the trained EfficientNetB0 model will classify it as
+                <strong>Normal</strong> or <strong>Pneumonia</strong>.
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form class="upload-card" action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
+                <label for="file">Choose X-ray image</label>
+                <input id="file" type="file" name="file" accept=".png,.jpg,.jpeg" required />
+                <button type="submit">Predict</button>
+            </form>
+
+            <p class="disclaimer">
+                Academic project only. This system is not a substitute for professional medical diagnosis.
+            </p>
+        </section>
+
+        <section class="hero-image">
+            <img src="{{ url_for('static', filename='images/imm.png') }}" alt="Doctor illustration" />
+        </section>
+    </main>
+</body>
+</html>
