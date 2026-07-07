@@ -101,6 +101,7 @@ pneumonia-detection-efficientnetb0/
 ├── sample_images/
 │
 └── screenshots/
+```
 How the Application Works
 
 The application follows a simple prediction workflow:
