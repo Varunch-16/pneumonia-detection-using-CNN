@@ -307,21 +307,6 @@ Through this project, I gained hands-on experience in:
 ---
 
 ## Screenshots
-
-Add screenshots of the application here after running the project.
-
-Example:
-
-```text
-screenshots/home-page.png
-screenshots/result-normal.png
-screenshots/result-pneumonia.png
-screenshots/about-page.png
-screenshots/feedback-page.png
-```
-
-You can display them in this README like this:
-
 ```markdown
 ![Home Page](screenshots/home-page.png)
 ![Prediction Result](screenshots/result-pneumonia.png)
