@@ -25,9 +25,9 @@ warnings.filterwarnings("ignore")
 print('Modules loaded')
 
 # Specify your file paths
-train_dir = r'D:\pneumonia_project\efficientNetB0\chest_xray\train'
-test_dir = r'D:\pneumonia_project\efficientNetB0\chest_xray\test'
-val_dir = r'D:\pneumonia_project\efficientNetB0\chest_xray\val'
+train_dir = r'pneumonia_project\efficientNetB0\chest_xray\train'
+test_dir = r'pneumonia_project\efficientNetB0\chest_xray\test'
+val_dir = r'pneumonia_project\efficientNetB0\chest_xray\val'
 
 # Create filepaths and labels
 filepaths = []
