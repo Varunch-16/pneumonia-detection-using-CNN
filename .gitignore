@@ -1,26 +1,8 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-.Python
 venv/
-.venv/
-env/
-ENV/
-
-# Flask/runtime
-uploads/
-instance/
-*.log
-
-# OS / IDE
+__pycache__/
+*.pyc
+uploads/*
+!uploads/.gitkeep
+feedback.csv
+.env
 .DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Large raw datasets are not included in this repository
-chest_xray/
-dataset/
-data/

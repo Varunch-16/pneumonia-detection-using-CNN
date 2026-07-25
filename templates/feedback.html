@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Feedback | PneumoScan{% endblock %}
+{% block content %}
+<section class="section page-hero">
+  <div class="container narrow">
+    <p class="eyebrow">Feedback</p>
+    <h1>Help improve the project.</h1>
+    <p class="lead">Use this page to report if the website did not work properly, if the prediction seemed incorrect, or if you noticed any usability issue.</p>
+  </div>
+</section>
+
+<section class="section compact">
+  <div class="container form-card">
+    <form method="post" action="{{ url_for('feedback') }}">
+      <div class="form-grid">
+        <label>Name <input type="text" name="name" placeholder="Your name"></label>
+        <label>Email <input type="email" name="email" placeholder="you@example.com"></label>
+      </div>
+      <label>Was this related to a prediction issue?
+        <select name="prediction_issue"><option>No</option><option>Yes</option><option>Not sure</option></select>
+      </label>
+      <label>Feedback <textarea name="message" rows="6" placeholder="Describe what happened..." required></textarea></label>
+      <button class="btn primary" type="submit">Submit Feedback</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

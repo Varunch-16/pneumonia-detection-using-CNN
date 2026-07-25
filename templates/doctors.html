@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Find Doctors | PneumoScan{% endblock %}
+{% block content %}
+<section class="section page-hero">
+  <div class="container narrow">
+    <p class="eyebrow">Doctor Search Support</p>
+    <h1>Find medical help near you.</h1>
+    <p class="lead">Use these search links to find pulmonology or respiratory care specialists near your location. Always verify doctor information directly before scheduling.</p>
+  </div>
+</section>
+
+<section class="section compact">
+  <div class="container doctor-grid">
+    {% for doctor in doctors %}
+      <article class="doctor-card">
+        <p class="doctor-specialty">{{ doctor.specialty }}</p>
+        <h2>{{ doctor.doctor }}</h2>
+        <p>{{ doctor.hospital }}</p>
+        <a class="btn primary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/{{ doctor.maps_query | urlencode }}">Open in Google Maps</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

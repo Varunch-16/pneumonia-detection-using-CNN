@@ -1,80 +1,116 @@
-import os
-from pathlib import Path
-from uuid import uuid4
-
-import numpy as np
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from werkzeug.utils import secure_filename
-
-BASE_DIR = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "model" / "new.h5"
-UPLOAD_FOLDER = BASE_DIR / "uploads"
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
-CLASS_NAMES = {0: "NORMAL", 1: "PNEUMONIA"}
+from pathlib import Path
+import numpy as np
+import csv
+import os
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "change-this-secret-key"
+app.secret_key = "replace-this-secret-key"
+
+BASE_DIR = Path(__file__).resolve().parent
+UPLOAD_FOLDER = BASE_DIR / "uploads"
+MODEL_PATH = BASE_DIR / "model" / "new.h5"
+FEEDBACK_FILE = BASE_DIR / "feedback.csv"
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 UPLOAD_FOLDER.mkdir(exist_ok=True)
 
-# compile=False avoids loading old optimizer state from the saved .h5 file.
 model = load_model(MODEL_PATH, compile=False)
+CLASS_NAMES = {0: "NORMAL", 1: "PNEUMONIA"}
 
+DOCTORS = [
+    {"hospital": "Cleveland Clinic", "doctor": "Pulmonology Department", "specialty": "Pulmonology", "maps_query": "Cleveland Clinic pulmonologist near me"},
+    {"hospital": "University Hospitals", "doctor": "Respiratory Care / Pulmonology", "specialty": "Pulmonology", "maps_query": "University Hospitals pulmonologist near me"},
+    {"hospital": "Nearby Specialist", "doctor": "Pulmonologist Near Me", "specialty": "Lung / Respiratory Specialist", "maps_query": "pulmonologist near me"},
+]
 
-def allowed_file(filename: str) -> bool:
+def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-def prepare_image(img_path: Path) -> np.ndarray:
-    """Load and prepare an X-ray image for the trained EfficientNetB0 model."""
-    img = image.load_img(img_path, target_size=(224, 224), color_mode="rgb")
+def preprocess_image(file_path):
+    img = image.load_img(file_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
+    return np.expand_dims(img_array, axis=0)
 
-    # The original training code used EfficientNetB0 and passed images as RGB arrays.
-    # Do not divide by 255 here unless the model is retrained with that preprocessing.
-    img_array = np.expand_dims(img_array, axis=0)
-    return img_array
-
-
-@app.route("/", methods=["GET"])
+@app.route("/")
 def index():
     return render_template("index.html")
-
 
 @app.route("/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:
-        flash("Please upload an X-ray image.")
+        flash("Please upload a chest X-ray image before submitting.")
         return redirect(url_for("index"))
 
-    file = request.files["file"]
-    if file.filename == "":
+    uploaded_file = request.files["file"]
+
+    if uploaded_file.filename == "":
         flash("No file selected. Please choose a PNG, JPG, or JPEG image.")
         return redirect(url_for("index"))
 
-    if not allowed_file(file.filename):
-        flash("Invalid file type. Please upload a PNG, JPG, or JPEG image.")
+    if not allowed_file(uploaded_file.filename):
+        flash("Unsupported file type. Please upload a PNG, JPG, or JPEG image.")
         return redirect(url_for("index"))
 
-    safe_name = secure_filename(file.filename)
-    unique_name = f"{uuid4().hex}_{safe_name}"
-    file_path = app.config["UPLOAD_FOLDER"] / unique_name
-    file.save(file_path)
+    filename = secure_filename(uploaded_file.filename)
+    file_path = UPLOAD_FOLDER / filename
+    uploaded_file.save(file_path)
 
     try:
-        img_array = prepare_image(file_path)
-        prediction_scores = model.predict(img_array)
-        predicted_index = int(np.argmax(prediction_scores, axis=1)[0])
-        prediction = CLASS_NAMES[predicted_index]
-        confidence = float(np.max(prediction_scores) * 100)
+        img_array = preprocess_image(file_path)
+        predictions = model.predict(img_array)
+        result_index = int(np.argmax(predictions, axis=1)[0])
+        confidence = float(np.max(predictions)) * 100
+        prediction = CLASS_NAMES.get(result_index, "UNKNOWN")
     finally:
         if file_path.exists():
-            file_path.unlink()
+            os.remove(file_path)
 
-    return render_template("result.html", prediction=prediction, confidence=confidence)
+    return redirect(url_for("result", prediction=prediction, confidence=round(confidence, 2)))
 
+@app.route("/result")
+def result():
+    return render_template(
+        "result.html",
+        prediction=request.args.get("prediction", "UNKNOWN"),
+        confidence=request.args.get("confidence", "N/A")
+    )
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/doctors")
+def doctors():
+    return render_template("doctors.html", doctors=DOCTORS)
+
+@app.route("/feedback", methods=["GET", "POST"])
+def feedback():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip()
+        issue = request.form.get("prediction_issue", "No")
+        message = request.form.get("message", "").strip()
+
+        if not message:
+            flash("Please describe the issue or feedback before submitting.")
+            return redirect(url_for("feedback"))
+
+        file_exists = FEEDBACK_FILE.exists()
+        with open(FEEDBACK_FILE, "a", newline="", encoding="utf-8") as csvfile:
+            writer = csv.writer(csvfile)
+            if not file_exists:
+                writer.writerow(["name", "email", "prediction_issue", "message"])
+            writer.writerow([name, email, issue, message])
+
+        flash("Thank you for your feedback. Your response has been recorded.")
+        return redirect(url_for("feedback"))
+
+    return render_template("feedback.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

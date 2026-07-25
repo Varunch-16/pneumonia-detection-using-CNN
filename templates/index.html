@@ -1,49 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pneumonia Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-</head>
-<body>
-    <header class="site-header">
-        <div class="brand">Pneumonia Detection</div>
-    </header>
+{% extends "base.html" %}
+{% block title %}PneumoScan | Chest X-ray Pneumonia Detection{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Deep Learning • Chest X-ray Screening • Academic Project</p>
+      <h1>Pneumonia detection from chest X-ray images.</h1>
+      <p class="lead">Upload a chest X-ray image and the system will run it through an EfficientNetB0-based model to provide a preliminary prediction.</p>
+      <div class="notice"><strong>Important:</strong> This project is for academic and educational purposes only. It is not a medical diagnosis tool. Please consult a qualified healthcare professional for medical advice.</div>
+      <div class="hero-actions">
+        <a class="btn secondary" href="{{ url_for('about') }}">Read About the Project</a>
+        <a class="btn ghost" href="{{ url_for('doctors') }}">Find a Doctor</a>
+      </div>
+    </div>
 
-    <main class="hero">
-        <section class="hero-text">
-            <p class="tag">Deep Learning · Chest X-Ray Classification · Flask</p>
-            <h1>Pneumonia Detection in Chest X-Ray Images Using EfficientNetB0</h1>
-            <p>
-                Upload a chest X-ray image and the trained EfficientNetB0 model will classify it as
-                <strong>Normal</strong> or <strong>Pneumonia</strong>.
-            </p>
+    <div class="upload-card">
+      <div class="card-header"><span class="pulse"></span><div><h2>Upload X-ray</h2><p>PNG, JPG, or JPEG files only</p></div></div>
+      <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data" class="upload-form">
+        <label class="drop-zone" for="fileInput">
+          <input id="fileInput" type="file" name="file" accept=".png,.jpg,.jpeg" required />
+          <span class="upload-icon">＋</span>
+          <strong id="fileName">Choose a chest X-ray image</strong>
+          <small>The image preview will appear after selection.</small>
+        </label>
+        <img id="previewImage" class="preview-image" alt="Selected X-ray preview" />
+        <button class="btn primary" type="submit">Run Prediction</button>
+      </form>
+    </div>
+  </div>
+</section>
 
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div class="alert">
-                        {% for message in messages %}
-                            <p>{{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-
-            <form class="upload-card" action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
-                <label for="file">Choose X-ray image</label>
-                <input id="file" type="file" name="file" accept=".png,.jpg,.jpeg" required />
-                <button type="submit">Predict</button>
-            </form>
-
-            <p class="disclaimer">
-                Academic project only. This system is not a substitute for professional medical diagnosis.
-            </p>
-        </section>
-
-        <section class="hero-image">
-            <img src="{{ url_for('static', filename='images/imm.png') }}" alt="Doctor illustration" />
-        </section>
-    </main>
-</body>
-</html>
+<section class="section">
+  <div class="container info-grid">
+    <article class="info-card"><h3>Model</h3><p>EfficientNetB0 was selected after comparing multiple CNN-based models for chest X-ray classification.</p></article>
+    <article class="info-card"><h3>Workflow</h3><p>The app accepts an image, preprocesses it to the model input size, predicts the class, and displays the result.</p></article>
+    <article class="info-card"><h3>User Support</h3><p>The result page includes precautions, doctor search support, and feedback reporting.</p></article>
+  </div>
+</section>
+{% endblock %}

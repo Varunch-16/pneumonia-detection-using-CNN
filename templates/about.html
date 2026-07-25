@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}About | PneumoScan{% endblock %}
+{% block content %}
+<section class="section page-hero">
+  <div class="container narrow">
+    <p class="eyebrow">About the Project</p>
+    <h1>Making chest X-ray classification easier to understand.</h1>
+    <p class="lead">PneumoScan is an academic deep learning project built to classify chest X-ray images as Normal or Pneumonia using an EfficientNetB0-based model.</p>
+  </div>
+</section>
+
+<section class="section compact">
+  <div class="container split">
+    <div class="content-panel">
+      <h2>What this project does</h2>
+      <p>The project allows a user to upload a chest X-ray image through a simple web interface. The backend preprocesses the image, sends it to the trained model, and displays the predicted class on a result page.</p>
+      <p>The goal is to demonstrate how deep learning can be connected with a usable web application, not to replace doctors or radiologists.</p>
+    </div>
+    <div class="content-panel">
+      <h2>Model comparison</h2>
+      <p>Several pre-trained CNN models were compared, including ResNet50, DenseNet121, VGG16, and EfficientNetB0. EfficientNetB0 was selected for the final application because it performed strongly in the project evaluation.</p>
+      <div class="metric-grid">
+        <div><strong>EfficientNetB0</strong><span>98.21%</span></div>
+        <div><strong>DenseNet121</strong><span>98.21%</span></div>
+        <div><strong>ResNet50</strong><span>90.18%</span></div>
+        <div><strong>VGG16</strong><span>88.78%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section compact">
+  <div class="container content-panel">
+    <h2>Published work</h2>
+    <p>A research paper based on this project was published in the International Journal of Research and Analytical Reviews.</p>
+    <p><strong>Title:</strong> Pneumonia Detection in Chest X-ray Images Using EfficientNetB0<br>
+    <strong>Journal:</strong> IJRAR, Volume 11, Issue 2, June 2024<br>
+    <strong>Paper ID:</strong> IJRAR24B3948</p>
+  </div>
+</section>
+{% endblock %}
