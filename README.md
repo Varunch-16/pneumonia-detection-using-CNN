@@ -307,10 +307,9 @@ Through this project, I gained hands-on experience in:
 ---
 
 ## Screenshots
-```markdown
+
 [Home Page](screenshots/home-page.png)
 [Prediction Result](screenshots/result-pneumonia.png)
-```
 
 ---
 
